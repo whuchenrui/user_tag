@@ -1,12 +1,14 @@
-# coding: utf-8
+# coding=utf-8
 __author__ = 'CRay'
 
-
+from datetime import datetime
 from application.model.ModelLog import ModelLog
 from application.model.ModelUserTag import ModelUserTag
 from application.model.RedisConn import RedisConn
+import chardet
 
 
+# 计算用户的tag使用情况
 def count_user_tag_cnt(_time):
     log_conn = ModelLog(_time)
     tag_conn = ModelUserTag()
@@ -15,7 +17,7 @@ def count_user_tag_cnt(_time):
 
     # 每次循环计算一个idfa的tag使用情况, 然后查询mongodb, 并更新
     for idfa in dict_idfa_pics:
-        app = dict_idfa_pics['app']
+        app = dict_idfa_pics[idfa]['app']
         temp = {}
         list_idfa_view = dict_idfa_pics[idfa]['v']   # save fav 的图片一定在v的集合中
         for v in list_idfa_view:
@@ -23,8 +25,9 @@ def count_user_tag_cnt(_time):
             for t in pic_tags:
                 if t in temp:
                     temp[t][0] += 1
+                    temp[t][3] += 1
                 else:
-                    temp[t] = [1, 0, 0, 0]
+                    temp[t] = [1, 0, 0, 1]
 
         list_idfa_view = dict_idfa_pics[idfa]['s']
         for s in list_idfa_view:
@@ -32,8 +35,9 @@ def count_user_tag_cnt(_time):
             for t in pic_tags:
                 if t in temp:
                     temp[t][1] += 10
+                    temp[t][3] += 10
                 else:
-                    temp[t] = [0, 10, 0, 0]
+                    temp[t] = [0, 10, 0, 10]
 
         list_idfa_view = dict_idfa_pics[idfa]['f']
         for f in list_idfa_view:
@@ -41,14 +45,17 @@ def count_user_tag_cnt(_time):
             for t in pic_tags:
                 if t in temp:
                     temp[t][2] += 10
+                    temp[t][3] += 10
                 else:
-                    temp[t] = [0, 0, 10, 0]
+                    temp[t] = [0, 0, 10, 10]
 
         record = temp
-        tag_conn.update(idfa, app, record)
-        #TODO: 把字典重新制空是否有必要, 减少内存还是增加查询时间消耗, 需要验证
-        dict_idfa_pics[idfa] = ''
+        if len(record)>3:  # 去除仅包含urlLink和view为空的记录
+            tag_conn.update(idfa, app, record)
 
 
 if __name__ == '__main__':
-    count_user_tag_cnt('2014-07-09')
+    time1 = datetime.now()
+    count_user_tag_cnt('2013-08-05')
+    time2 = datetime.now()
+    print 'use time: ', time2-time1
