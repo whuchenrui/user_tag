@@ -4,25 +4,6 @@ __author__ = 'ray'
 import pymongo
 import chardet
 
-def classify():
-    client = pymongo.Connection()
-    conn = client.db_wallpaper
-    user_coll = conn['2013-07-07_log']
-    dict_app = {}
-
-    results = user_coll.find({}, {'_id': 0, 'time': 0})
-    for result in results:
-        if result['app'] in dict_app:
-            pass
-        else:
-            dict_app[result['app']] = {}
-        dict_app[result['app']][result['idfa']] = {}
-        dict_app[result['app']][result['idfa']]['app'] = result['app']
-        dict_app[result['app']][result['idfa']]['app_v'] = result['app_v']
-        for item in result['tag']:
-            dict_app[result['app']][result['idfa']][item['name']] = item['cnt']
-    client.close()
-
 
 def test():
     t = {'a': 5, 'b': 7, 'c': 6, 'd': 2, 'e': 9, 'f': 10, 'g': 0, 'h': 1}
