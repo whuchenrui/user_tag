@@ -18,6 +18,9 @@ user_tag 表   # 一条记录
 
 3：将修改后的dict_user_tag 字典更新到mongodb中。
 
+-----2014-10-24---
+数据库增加新表status, 记录数据一些参数的记录.
+{'type': 'tag', 'time': [time1, time2, time3]}
 
 注意:
 tag标签中避免使用 ==   && 这样的符号
