@@ -3,8 +3,6 @@ __author__ = 'ray'
 
 import codecs
 from application.model.RedisConn import RedisConn
-from datetime import datetime
-import chardet
 
 def make_data():
     fin = codecs.open('../../data/pictures.csv', 'r', encoding='UTF-8')
@@ -19,9 +17,6 @@ def make_data():
         for i in range(0, len(list_tag)):
             redis_conn.cache.lpush(pid, list_tag[i])
     fin.close()
-
-
-
 
 if __name__ == '__main__':
     make_data()
