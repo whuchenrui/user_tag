@@ -9,11 +9,11 @@ class MongoConn():
     clog_info = None
     cuser_tag = None
 
-    def __init__(self, _tpye, _log_time=None):
+    def __init__(self, _type, _log_time=None):
         self.client = pymongo.Connection()
         self.conn = self.client.db_wallpaper
-        if type == 'log':
+        if _type == 'log':
             col_name = _log_time + '_log'
             self.clog_info = self.conn[col_name]
-        elif type == 'tag':
+        elif _type == 'tag':
             self.cuser_tag = self.conn.user_tag
