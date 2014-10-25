@@ -6,6 +6,7 @@ from application.model.ModelLog import ModelLog
 from application.model.ModelUserTag import ModelUserTag
 from application.model.RedisConn import RedisConn
 import chardet
+import sys
 
 
 # 计算用户的tag使用情况
@@ -54,8 +55,24 @@ def count_user_tag_cnt(_time):
             tag_conn.update(idfa, app, record)
 
 
+def check_counted(_log_time):
+    log_conn = ModelLog(_log_time)
+    flag = log_conn.check_is_counted(_log_time)
+    return flag
+
+
 if __name__ == '__main__':
+    log_time = '2012-08-06'
     time1 = datetime.now()
-    count_user_tag_cnt('2013-08-05')
+    flag = check_counted(log_time)
+    try:
+        log_time = sys.argv[1]
+        flag = check_counted(log_time)
+        if not flag:
+            count_user_tag_cnt(log_time)
+        else:
+            print '该日期已经计算过! 请勿重复计算'
+    except Exception as e:
+        print e, "输入格式: python CountTag 2014-09-11"
     time2 = datetime.now()
-    print 'use time: ', time2-time1
+    print 'count tag use time: ', time2-time1
