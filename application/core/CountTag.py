@@ -7,6 +7,7 @@ from datetime import datetime
 from application.model.ModelLog import ModelLog
 from application.model.ModelUserTag import ModelUserTag
 from application.model.RedisConn import RedisConn
+from application.helper import function
 
 
 # 计算用户的tag使用情况
@@ -62,15 +63,21 @@ def check_counted(_log_time):
 
 
 if __name__ == '__main__':
-    log_time = '2012-08-06'
+    start_time = '2012-08-06'
+    end_time = '2012-08-07'
     time1 = datetime.now()
     try:
-        log_time = sys.argv[1]
-        flag = check_counted(log_time)
-        if not flag:
-            count_user_tag_cnt(log_time)
-        else:
-            print '该日期已经计算过! 请勿重复计算'
+        start_time = sys.argv[1]
+        end_time = sys.argv[2]
+        list_time = function.get_time_list(start_time, end_time)
+        for log_time in list_time:
+            flag = check_counted(log_time)
+            if not flag:
+                count_user_tag_cnt(log_time)
+                time2 = datetime.now()
+                print log_time + 'use time: ', time2-time1
+            else:
+                print '该日期已经计算过! 请勿重复计算'
     except Exception as e:
         print e, "输入格式: python CountTag 2014-09-11"
     time2 = datetime.now()

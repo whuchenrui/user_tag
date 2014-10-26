@@ -1,8 +1,8 @@
-from application.model import RedisConn
-
-__author__ = 'CRay'
 # encoding: utf-8
+__author__ = 'CRay'
 
+
+from application.model import RedisConn
 import codecs
 from datetime import datetime, timedelta
 
