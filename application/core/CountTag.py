@@ -1,12 +1,12 @@
 # coding=utf-8
 __author__ = 'CRay'
 
+import sys
+sys.path.append('../../')
 from datetime import datetime
 from application.model.ModelLog import ModelLog
 from application.model.ModelUserTag import ModelUserTag
 from application.model.RedisConn import RedisConn
-import chardet
-import sys
 
 
 # 计算用户的tag使用情况
@@ -64,7 +64,6 @@ def check_counted(_log_time):
 if __name__ == '__main__':
     log_time = '2012-08-06'
     time1 = datetime.now()
-    flag = check_counted(log_time)
     try:
         log_time = sys.argv[1]
         flag = check_counted(log_time)
