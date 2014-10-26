@@ -2,6 +2,8 @@
 __author__ = 'ray'
 
 import codecs
+import sys
+sys.path.append('../../')
 from application.model.RedisConn import RedisConn
 
 def make_data():
@@ -15,6 +17,9 @@ def make_data():
         pid = list_line[0]
         list_tag = list_line[1].split(',')
         for i in range(0, len(list_tag)):
+            if not list_tag[i]:
+                continue
+            list_tag[i] = list_tag[i].strip(' ')
             redis_conn.cache.lpush(pid, list_tag[i])
     fin.close()
 
