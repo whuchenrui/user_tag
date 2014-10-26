@@ -2,7 +2,6 @@
 __author__ = 'ray'
 
 from MongoConn import MongoConn
-import chardet
 
 
 class ModelUserTag():
