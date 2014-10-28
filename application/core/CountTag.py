@@ -73,9 +73,10 @@ if __name__ == '__main__':
         for log_time in list_time:
             flag = check_counted(log_time)
             if not flag:
+                time11 = datetime.now()
                 count_user_tag_cnt(log_time)
                 time2 = datetime.now()
-                print log_time + 'use time: ', time2-time1
+                print log_time + 'use time: ', time2-time11
             else:
                 print '该日期已经计算过! 请勿重复计算'
     except Exception as e:
