@@ -80,6 +80,6 @@ if __name__ == '__main__':
             else:
                 print '该日期已经计算过! 请勿重复计算'
     except Exception as e:
-        print e, "输入格式: python CountTag 2014-09-11"
+        print e, "输入格式: python CountTag 2014-09-11 2014-09-15"
     time2 = datetime.now()
     print 'count tag use time: ', time2-time1
