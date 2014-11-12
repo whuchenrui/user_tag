@@ -2,7 +2,7 @@
 __author__ = 'ray'
 
 from MongoConn import MongoConn
-
+import traceback
 
 class ModelUserTag():
     db = None
@@ -59,8 +59,12 @@ class ModelUserTag():
             list_tag = mongo_tag.strip('&&').split('&&')
             for i in range(0, len(list_tag)):
                 info = list_tag[i].split('==')
-                data_info  = [int(info[1]), int(info[2]), int(info[3]), int(info[4])]
-                dict_tag[info[0]] = data_info
+                try:
+                    data_info  = [int(info[1]), int(info[2]), int(info[3]), int(info[4])]
+                    dict_tag[info[0]] = data_info
+                except:
+                    traceback.print_exc()
+                    print 'int error!'
 
             for tag in _record:
                 if tag in dict_tag:
